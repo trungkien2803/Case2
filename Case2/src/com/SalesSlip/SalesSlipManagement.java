@@ -7,7 +7,6 @@ import com.employee.Employee;
 import com.employee.EmployeeManagement;
 import com.employee.Salesman;
 
-import javax.swing.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,8 +17,8 @@ import java.util.regex.Pattern;
 
 public class SalesSlipManagement {
     private static final String ID_REGEX = "^[A-Z]{2}\\d*";
-    private static final String DATE_REGEX = "^\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}$";
     private static final String NUMBER_REGEX = "\\d*";
+    private static final String NAME_REGEX = "[a-zA-Z]*";
     private static final String SALES_SLIP_ID = "Mã phiếu";
     private static final String DATE_SALE = "Ngày bán";
     private static final String SALESMAN = "Nhân viên bán hàng";
@@ -29,15 +28,16 @@ public class SalesSlipManagement {
     private static final String TAX = "Thuế";
     private static final String TOTAL_PAYMENT = "Tổng tiền";
     private static final String DISCOUNT = "Giảm giá";
+    public static final String CUSTOMER_NAME = "Tên khách hàng";
     private final String SALES_SLIP_TXT = "SalesSlip.txt";
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
     private List<SalesSlip> salesSlipList = new ArrayList<>();
     private static final ProductManagement productManagement = new ProductManagement();
     private static final EmployeeManagement employeeManagement = new EmployeeManagement();
     private final ReadWriteFile<SalesSlip> readWriteFile = new ReadWriteFile();
-    private File file = new File(SALES_SLIP_TXT);
-    private Date date = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+    private final File file = new File(SALES_SLIP_TXT);
+    private final Date date = new Date();
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
     String strDate = formatter.format(date);
 
 
@@ -50,7 +50,7 @@ public class SalesSlipManagement {
 
     public void readSalesSlipListFromFile() {
         if (file.length() > 0) {
-            salesSlipList = (List<SalesSlip>) readWriteFile.readDataFromFile(SALES_SLIP_TXT);
+            salesSlipList = readWriteFile.readDataFromFile(SALES_SLIP_TXT);
         }
     }
 
@@ -62,6 +62,8 @@ public class SalesSlipManagement {
         salesSlip.setSalesSlipId(checkInput(ID_REGEX));
         checkEnteredId(salesSlip);
         salesSlip.setDateSale(strDate);
+        System.out.println(CUSTOMER_NAME);
+        salesSlip.setCustomerName(checkInput(NAME_REGEX));
         enterSalesman(salesSlip);
         enterProduct(salesSlip);
         System.out.println(TAX);
@@ -116,18 +118,14 @@ public class SalesSlipManagement {
         }
     }
 
-    public ProductManagement getProductManagement() {
-        return productManagement;
-    }
-
-    public EmployeeManagement getEmployeeManagement() {
-        return employeeManagement;
+    public List<SalesSlip> getSalesSlipList() {
+        return salesSlipList;
     }
 
     public void showList() {
         System.out.printf("%-70s%-30s%s\n\n\n", "", "DANH SÁCH PHIẾU BÁN HÀNG", "");
-        readSalesSlipListFromFile();
         if (salesSlipList != null){
+            readSalesSlipListFromFile();
             for (SalesSlip salesSlip : salesSlipList) {
                 showInfo(salesSlip);
                 System.out.println();
@@ -139,7 +137,8 @@ public class SalesSlipManagement {
         draw();
         System.out.printf("%-35s" + "%-35s" + "%-35s\n", SALES_SLIP_ID + ": " + salesSlip.getSalesSlipId(), DATE_SALE + ": " + salesSlip.getDateSale(), SALESMAN + ": " + salesSlip.getSalesman());
         System.out.printf("%-35s" + "%-35s" + "%-35s\n", PRODUCT_ID + ": " + salesSlip.getProductId(), PRODUCT_NAME + ": " + salesSlip.getProductName(), PRODUCT_PRICE + ": " + salesSlip.getPrice() + "vnd");
-        System.out.printf("%-35s" + "%-35s" + "%-35s\n", TAX + ": " + salesSlip.getTax() + "%", DISCOUNT + ": " + salesSlip.getDiscount() + "%", TOTAL_PAYMENT + ": " + salesSlip.getTotalPayment() + "vnd");
+        System.out.printf("%-35s" + "%-35s" + "%-35s\n", TAX + ": " + salesSlip.getTax() + "%", DISCOUNT + ": " + salesSlip.getDiscount() + "%", CUSTOMER_NAME + ": " + salesSlip.getCustomerName());
+        System.out.printf("%-35s" + "%-35s" + "%-35s\n", TOTAL_PAYMENT + ": " + salesSlip.getTotalPayment() + "vnd", "", "");
         draw();
     }
 
@@ -181,7 +180,7 @@ public class SalesSlipManagement {
                     if (productId.equals(product.getProductId())) {
                         salesSlip.setProductId(product.getProductId());
                         salesSlip.setProductName(product.getName());
-                        salesSlip.setPrice(product.getPrice());
+                        salesSlip.setPrice(product.getImportPrice());
                         check = false;
                         break;
                     }
@@ -245,7 +244,7 @@ public class SalesSlipManagement {
             }
         }
         if (!check) {
-            System.err.println("Không tồn tại mã id này");
+            System.err.println("Không tồn tại mã phiếu này");
         }
     }
     public String checkInput(String regex) {
@@ -266,9 +265,10 @@ public class SalesSlipManagement {
     private void checkEnteredId(SalesSlip salesSlip) {
         while (true) {
             int index = 0;
+            readSalesSlipListFromFile();
             for (SalesSlip value : salesSlipList) {
                 if (salesSlip.getSalesSlipId().equals(value.getSalesSlipId())) {
-                    System.err.println("Mã sản phẩm đã tồn tại");
+                    System.err.println("Mã phiếu đã tồn tại");
                     salesSlip.setSalesSlipId(checkInput(ID_REGEX));
                     index++;
                 }

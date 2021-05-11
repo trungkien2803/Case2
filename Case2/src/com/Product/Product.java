@@ -1,10 +1,6 @@
 package com.Product;
 
-
-
-
 import java.io.Serializable;
-
 
 public abstract class Product implements Serializable{
     private String productId = "";
@@ -12,20 +8,20 @@ public abstract class Product implements Serializable{
     private String company = "";
     private String color = "";
     private String name = "";
-    private String price;
-
+    private String importPrice;
+    private String day;
 
     public Product() {
 
     }
 
-    public Product(String productId, String mfg, String company, String color, String name, String price) {
+    public Product(String productId, String mfg, String company, String color, String name, String importPrice) {
         this.productId = productId;
         this.mfg = mfg;
         this.company = company;
         this.color = color;
         this.name = name;
-        this.price = price;
+        this.importPrice = importPrice;
     }
 
     public String getProductId() {
@@ -68,12 +64,24 @@ public abstract class Product implements Serializable{
         this.name = name;
     }
 
-    public String getPrice() {
-        return price;
+    public String getImportPrice() {
+        return importPrice;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public double getPrice(){
+        return Double.parseDouble(getImportPrice())+Double.parseDouble(getImportPrice())*20/100;
+    }
+
+    public void setImportPrice(String importPrice) {
+        this.importPrice = importPrice;
     }
 
 

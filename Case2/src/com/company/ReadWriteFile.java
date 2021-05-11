@@ -1,7 +1,5 @@
 package com.company;
 
-import com.Product.Product;
-
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +16,7 @@ public class ReadWriteFile<T> {
         } catch (EOFException e){
             System.err.println();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return list;
@@ -58,9 +54,7 @@ public class ReadWriteFile<T> {
         } catch (EOFException e){
             System.err.println();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return map;

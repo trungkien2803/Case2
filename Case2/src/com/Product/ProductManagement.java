@@ -1,7 +1,7 @@
 package com.Product;
 
 import com.company.ReadWriteFile;
-import com.employee.Employee;
+import com.employee.EmployeeManagement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +16,7 @@ public class ProductManagement {
     private static final String MFG = "Năm sản xuất";
     private static final String COMPANY = "Hãng sản xuất";
     private static final String COLOR = "Màu sắc";
+    private static final String IMPORT_PRICE = "Giá nhập";
     private static final String PRICE = "Giá bán";
     private static final String EDIT_PRINTF = "%-70s%-30s%s";
     private static final String EXAMPLE_PRODUCT_ID = "(VD:AA11)";
@@ -52,13 +53,14 @@ public class ProductManagement {
     private static final String W = "(w)";
     private static List<Product> productList = new ArrayList<>();
     private static List<Product> productSoldList = new ArrayList<>();
-    private final String PATH = "listProduct.txt";
-    Scanner sc = new Scanner(System.in);
-    private final ReadWriteFile<Product> readWriteDataFile = new ReadWriteFile<>();
+    private static final String PATH = "listProduct.txt";
+    private static final Scanner sc = new Scanner(System.in);
+    private static final ReadWriteFile<Product> readWriteDataFile = new ReadWriteFile<>();
 
     public static void main(String[] args) {
         System.out.println(productSoldList.size());
     }
+
     public List<Product> getProductList() {
         return productList;
     }
@@ -76,7 +78,7 @@ public class ProductManagement {
     }
 
     public void setProductList() {
-        this.productList = readWriteDataFile.readDataFromFile(PATH);
+        productList = readWriteDataFile.readDataFromFile(PATH);
     }
 
     public void addInfo(Product product) {
@@ -119,8 +121,8 @@ public class ProductManagement {
         product.setCompany(checkInput(COMPANY_REGEX));
         System.out.println(COLOR + EXAMPLE_COLOR);
         product.setColor(checkInput(COLOR_REGEX));
-        System.out.println(PRICE + EXAMPLE_PRICE);
-        product.setPrice(checkInput(PRICE_REGEX));
+        System.out.println(IMPORT_PRICE + EXAMPLE_PRICE);
+        product.setImportPrice(checkInput(PRICE_REGEX));
     }
 
     private void checkEnteredId(Product product) {
@@ -143,8 +145,22 @@ public class ProductManagement {
         setProductList();
         draw();
         System.out.printf("%-70s%-30s%s\n\n\n", "", "DANH SÁCH SẢN PHẨM TRONG KHO", "");
-        if (productList != null){
+        if (productList != null) {
             for (Product product : productList) {
+                showInfo(product);
+                System.out.println();
+            }
+        }
+        System.out.print("\n\n");
+        draw();
+    }
+
+    public void showProductsSold() {
+        productSoldList = readWriteDataFile.readDataFromFile("productsSold.txt");
+        draw();
+        System.out.printf("%-70s%-30s%s\n\n\n", "", "DANH SÁCH SẢN PHẨM ĐÃ BÁN", "");
+        if (productSoldList != null) {
+            for (Product product : productSoldList) {
                 showInfo(product);
                 System.out.println();
             }
@@ -157,7 +173,7 @@ public class ProductManagement {
         setProductList();
         draw();
         System.out.printf("%-70s%-30s%s\n\n\n", "", "DANH SÁCH SẢN PHẨM XE MÁY TRONG KHO", "");
-        if (productList != null){
+        if (productList != null) {
             for (Product product : productList) {
                 if (product instanceof Motorbike) {
                     showInfo(product);
@@ -173,7 +189,7 @@ public class ProductManagement {
         setProductList();
         draw();
         System.out.printf("%-70s%-30s%s\n\n\n", "", "DANH SÁCH SẢN PHẨM XE ĐIỆN TRONG KHO", "");
-        if (productList != null){
+        if (productList != null) {
             for (Product product : productList) {
                 if (product instanceof ElectricMotorcycle) {
                     showInfo(product);
@@ -185,11 +201,13 @@ public class ProductManagement {
         draw();
     }
 
+
+
     private void showInfo(Product product) {
         if (product instanceof Motorbike) {
-            System.out.printf("%-10s" + PRODUCT_ID + ": %-15s, " + NAME + ": %-15s " + MFG + ": %-15s, " + COMPANY + ": %-15s, " + COLOR + ": %-15s, " + PRICE + ": %-15s ","(XE MÁY)", product.getProductId(), product.getName(), product.getMfg(), product.getCompany(), product.getColor(), product.getPrice() + "vnd");
+            System.out.printf("%-10s" + PRODUCT_ID + ": %-15s, " + NAME + ": %-15s " + MFG + ": %-15s, " + COMPANY + ": %-15s, " + COLOR + ": %-15s, " + IMPORT_PRICE + ": %-15s " + PRICE + ": %-15s ", "(XE MÁY)", product.getProductId(), product.getName(), product.getMfg(), product.getCompany(), product.getColor(), product.getImportPrice() + "vnd", product.getPrice() + "vnd");
         } else if (product instanceof ElectricMotorcycle) {
-            System.out.printf("%-10s" + PRODUCT_ID + ": %-15s, " + NAME + ": %-15s " + MFG + ": %-15s, " + COMPANY + ": %-15s, " + COLOR + ": %-15s, " + PRICE + ": %-15s ","(XE ĐIỆN)", product.getProductId(), product.getName(), product.getMfg(), product.getCompany(), product.getColor(), product.getPrice() + "vnd");
+            System.out.printf("%-10s" + PRODUCT_ID + ": %-15s, " + NAME + ": %-15s " + MFG + ": %-15s, " + COMPANY + ": %-15s, " + COLOR + ": %-15s, " + IMPORT_PRICE + ": %-15s " + PRICE + ": %-15s ", "(XE ĐIỆN)", product.getProductId(), product.getName(), product.getMfg(), product.getCompany(), product.getColor(), product.getImportPrice() + "vnd", product.getPrice() + "vnd");
         }
     }
 
@@ -197,7 +215,7 @@ public class ProductManagement {
         setProductList();
         draw();
         System.out.printf("%-70s%-30s%s\n\n\n", "", "THÔNG SỐ KĨ THUẬT CÁC SẢN PHẨM", "");
-        if (productList != null){
+        if (productList != null) {
             for (Product product : productList) {
                 if (product instanceof Motorbike) {
                     showSpecifications(product);
@@ -223,12 +241,12 @@ public class ProductManagement {
     private void showInfoSpecifications(Product product) {
         if (product instanceof Motorbike motorbike) {
             System.out.printf(EDIT_PRINTF + "\n\n", "", "THÔNG TIN CƠ BẢN", "");
-            System.out.printf(PRODUCT_ID + ": %-15s, " + NAME + ": %-10s " + MFG + ": %-15s, " + COMPANY + ": %-15s, " + COLOR + ": %-15s, " + PRICE + ": %-15s\n\n", product.getProductId(), product.getName(), product.getMfg(), product.getCompany(), product.getColor(), product.getPrice() + "vnd");
+            System.out.printf(PRODUCT_ID + ": %-15s, " + NAME + ": %-10s " + MFG + ": %-15s, " + COMPANY + ": %-15s, " + COLOR + ": %-15s, " + IMPORT_PRICE + ": %-15s\n\n", product.getProductId(), product.getName(), product.getMfg(), product.getCompany(), product.getColor(), product.getImportPrice() + "vnd");
             System.out.printf(EDIT_PRINTF + "\n\n", "", "THÔNG SỐ KĨ THUẬT", "");
             System.out.printf(CYLINDER_CAPACITY + ": %-15s, " + MAX_SPEED + ": %-15s, " + FUEL_TANK_VOLUME + ": %-15s, " + FUEL_CONSUMPTION + ": %-15s ", motorbike.getCylinderCapacity() + "cc", motorbike.getMaxSpeed() + "km/h", motorbike.getFuelTankVolume() + "l", motorbike.getFuelConsumption() + "km/l");
         } else if (product instanceof ElectricMotorcycle electricMotorcycle) {
             System.out.printf(EDIT_PRINTF + "\n\n", "", "THÔNG TIN CƠ BẢN", "");
-            System.out.printf(PRODUCT_ID + ": %-15s, " + NAME + ": %-15s " + MFG + ": %-15s, " + COMPANY + ": %-15s, " + COLOR + ": %-15s, " + PRICE + ": %-15s\n\n", product.getProductId(), product.getName(), product.getMfg(), product.getCompany(), product.getColor(), product.getPrice() + "vnd");
+            System.out.printf(PRODUCT_ID + ": %-15s, " + NAME + ": %-15s " + MFG + ": %-15s, " + COMPANY + ": %-15s, " + COLOR + ": %-15s, " + IMPORT_PRICE + ": %-15s\n\n", product.getProductId(), product.getName(), product.getMfg(), product.getCompany(), product.getColor(), product.getImportPrice() + "vnd");
             System.out.printf(EDIT_PRINTF + "\n\n", "", "THÔNG SỐ KĨ THUẬT", "");
             System.out.printf(MAX_DISTANCE + ": %-15s, " + CHARGING_TIME + ": %-15, " + WATTAGE + ": %-15s, " + BATTERY_TYPE + ": %-15s ", electricMotorcycle.getMaxDistance() + "km", electricMotorcycle.getChargingTime() + "h", electricMotorcycle.getWattage() + "w", electricMotorcycle.getBatteryType() + "km/l");
         }
@@ -283,9 +301,9 @@ public class ProductManagement {
                     break;
                 }
                 case "5": {
-                    System.out.println(PRICE + EXAMPLE_PRICE);
+                    System.out.println(IMPORT_PRICE + EXAMPLE_PRICE);
                     String price = checkInput(PRICE_REGEX);
-                    product.setPrice(price);
+                    product.setImportPrice(price);
                     break;
                 }
                 case "6": {
@@ -301,9 +319,9 @@ public class ProductManagement {
                     System.out.println(COLOR + EXAMPLE_COLOR);
                     String color = checkInput(COLOR_REGEX);
                     product.setColor(color);
-                    System.out.println(PRICE + EXAMPLE_PRICE);
+                    System.out.println(IMPORT_PRICE + EXAMPLE_PRICE);
                     String price = checkInput(PRICE_REGEX);
-                    product.setPrice(price);
+                    product.setImportPrice(price);
                     break;
                 }
                 case "0": {
@@ -333,7 +351,7 @@ public class ProductManagement {
             }
         }
         if (!check) {
-            System.err.println("Mã nhân viên không tồn tại");
+            System.err.println("Mã sản phẩm không tồn tại");
         }
         readWriteDataFile.writeDataToFile(PATH, productList);
     }
@@ -423,7 +441,7 @@ public class ProductManagement {
     }
 
     public void deleteInfo() {
-        System.out.print("Nhập mã sản phẩm cần xóa");
+        System.out.print("Nhập mã sản phẩm cần xóa ");
         String id = sc.next();
         draw();
         boolean check = false;
@@ -435,9 +453,9 @@ public class ProductManagement {
             }
         }
         if (!check) {
-            System.err.println("Mã nhân viên không tồn tại");
+            System.err.println("Mã sản phẩm không tồn tại");
         }
-        readWriteDataFile.writeDataToFile(PATH, this.productList);
+        readWriteDataFile.writeDataToFile(PATH, productList);
     }
 
     public void findProductById() {
@@ -453,30 +471,30 @@ public class ProductManagement {
             }
         }
         if (!check) {
-            System.err.println("Không tồn tại mã id này");
+            System.err.println("Không tồn tại mã sản phẩm này");
         }
     }
 
     public void sortInfoPriceMaxMin() {
         for (int i = 0; i < productList.size() - 1; i++) {
             for (int j = productList.size() - 1; j > i; j--) {
-                if (productList.get(i).getPrice().compareTo(productList.get(j).getPrice()) < 0) {
+                if (productList.get(i).getImportPrice().compareTo(productList.get(j).getImportPrice()) < 0) {
                     Collections.swap(productList, i, j);
                 }
             }
         }
-        readWriteDataFile.writeDataToFile(PATH, this.productList);
+        readWriteDataFile.writeDataToFile(PATH, productList);
     }
 
     public void sortInfoPriceMinMax() {
         for (int i = 0; i < productList.size() - 1; i++) {
             for (int j = productList.size() - 1; j > i; j--) {
-                if (productList.get(i).getPrice().compareTo(productList.get(j).getPrice()) > 0) {
+                if (productList.get(i).getImportPrice().compareTo(productList.get(j).getImportPrice()) > 0) {
                     Collections.swap(productList, i, j);
                 }
             }
         }
-        readWriteDataFile.writeDataToFile(PATH, this.productList);
+        readWriteDataFile.writeDataToFile(PATH, productList);
     }
 
     public void sortInfoMFG() {
@@ -487,9 +505,8 @@ public class ProductManagement {
                 }
             }
         }
-        readWriteDataFile.writeDataToFile(PATH, this.productList);
+        readWriteDataFile.writeDataToFile(PATH, productList);
     }
-
 
     public String checkInput(String regex) {
         Pattern pattern = Pattern.compile(regex);

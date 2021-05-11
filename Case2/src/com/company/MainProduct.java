@@ -1,30 +1,29 @@
 package com.company;
 
 import com.Product.*;
-import com.employee.Employee;
-
 import java.io.File;
 import java.util.Scanner;
 
 public class MainProduct {
-    private final String S_40_S_60_S = "%-40s%-50s%-40s%40s";
 
     public void menu() {
         for (int  i = 0; i < 170; i++){
-            System.out.printf("-");
+            System.out.print("-");
         }
         System.out.println();
         System.out.printf("%-70s%-50s%-40s%10s" + "\n","|","QUẢN LÍ SẢN PHẨM","","|");
-        System.out.printf(S_40_S_60_S + "\n","|","","","|");
-        System.out.printf(S_40_S_60_S + "\n","|","1. Thêm sản phẩm xe máy","8. Sắp xếp sản phẩm theo năm sản xuất","|");
-        System.out.printf(S_40_S_60_S + "\n","|","2. Thêm sản phẩm xe điện","9. Sắp xếp sản phẩm theo giá giảm dần","|");
-        System.out.printf(S_40_S_60_S + "\n","|","3. Hiển thị danh sách sản phẩm","10. Sắp xếp sản phẩm theo giá tăng dần","|");
-        System.out.printf(S_40_S_60_S + "\n","|","4. Hiển thị thông số kĩ thuật","11. Xóa sản phẩm","|");
-        System.out.printf(S_40_S_60_S + "\n","|","5. Sửa thông tin sản phẩm","12. Hiển thị các sản phẩm xe số","|");
-        System.out.printf(S_40_S_60_S + "\n","|","6. Sửa thông số kĩ thuật sản phẩm","13. Hiển thị các sản phẩm xe điện","|");
-        System.out.printf(S_40_S_60_S + "\n","|","7. Tìm kiếm sản phẩm","0. Thoát","|");
+        String s_40_S_60_S = "%-40s%-50s%-40s%40s";
+        System.out.printf(s_40_S_60_S + "\n","|","","","|");
+        System.out.printf(s_40_S_60_S + "\n","|","1. Thêm sản phẩm xe máy","8. Sắp xếp sản phẩm theo năm sản xuất","|");
+        System.out.printf(s_40_S_60_S + "\n","|","2. Thêm sản phẩm xe điện","9. Sắp xếp sản phẩm theo giá giảm dần","|");
+        System.out.printf(s_40_S_60_S + "\n","|","3. Hiển thị danh sách sản phẩm","10. Sắp xếp sản phẩm theo giá tăng dần","|");
+        System.out.printf(s_40_S_60_S + "\n","|","4. Hiển thị thông số kĩ thuật","11. Xóa sản phẩm","|");
+        System.out.printf(s_40_S_60_S + "\n","|","5. Sửa thông tin sản phẩm","12. Hiển thị các sản phẩm xe số","|");
+        System.out.printf(s_40_S_60_S + "\n","|","6. Sửa thông số kĩ thuật sản phẩm","13. Hiển thị các sản phẩm xe điện","|");
+        System.out.printf(s_40_S_60_S + "\n","|","7. Tìm kiếm sản phẩm","0. Thoát","|");
+        System.out.printf(s_40_S_60_S + "\n","|","14. Hiển thị danh sách sản phẩm đã bán","","|");
         for (int  i = 0; i < 170; i++){
-            System.out.printf("-");
+            System.out.print("-");
         }
         System.out.println();
     }
@@ -94,11 +93,14 @@ public class MainProduct {
                 case "13":{
                     productManagement.showElectricMotorcycleListInfo();
                 }
+                case "14":{
+                    productManagement.showProductsSold();
+                }
                 case "0":{
                     break;
                 }
                 default: {
-                    System.err.printf("Không có sự lựa chọn này\n");
+                    System.err.print("Không có sự lựa chọn này\n");
                 }
             }
         } while (!choice.equals("0"));

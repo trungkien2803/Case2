@@ -1,9 +1,6 @@
 package com.employee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public abstract class Employee implements Serializable{
     private String id;
@@ -14,8 +11,7 @@ public abstract class Employee implements Serializable{
     private String salary;
     private String bonus;
     private String fine;
-    private Double realWages;
-    private static List<String> listId = new ArrayList<>();
+
     public Employee() {
 
     }
@@ -94,14 +90,8 @@ public abstract class Employee implements Serializable{
     public void setFine(String fine) {
         this.fine = fine;
     }
-
-    public static List<String> getListId() {
-        return listId;
-    }
-
     public double getRealWages() {
-        realWages = Double.parseDouble(salary) + Double.parseDouble(bonus) - Double.parseDouble(fine);
-        return realWages;
+        return Double.parseDouble(getSalary()) + Double.parseDouble(getBonus()) - Double.parseDouble(getFine());
     }
 
 }

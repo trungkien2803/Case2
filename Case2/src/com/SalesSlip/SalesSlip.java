@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class SalesSlip implements Serializable {
     private String salesSlipId;
     private String dateSale;
+    private String customerName;
     private String salesmanId;
     private String salesman;
     private String productId;
@@ -17,9 +18,10 @@ public class SalesSlip implements Serializable {
     public SalesSlip() {
     }
 
-    public SalesSlip(String salesSlipId, String dateSale, String salesmanId, String salesman, String productId, String productName, String price, String tax, String discount) {
+    public SalesSlip(String salesSlipId, String dateSale, String customerName, String salesmanId, String salesman, String productId, String productName, String price, String tax, String discount) {
         this.salesSlipId = salesSlipId;
         this.dateSale = dateSale;
+        this.customerName = customerName;
         this.salesmanId = salesmanId;
         this.salesman = salesman;
         this.productId = productId;
@@ -81,6 +83,14 @@ public class SalesSlip implements Serializable {
         return discount;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
     public String getSalesmanId() {
         return salesmanId;
     }
@@ -93,17 +103,15 @@ public class SalesSlip implements Serializable {
         this.discount = discount;
     }
 
-    public Double getTotalPayment() {
-        totalPayment = Double.parseDouble(price) + (Double.parseDouble(price) * (Double.parseDouble(tax)/100)) -Double.parseDouble(price) * (Double.parseDouble(discount)/100);
-        return totalPayment;
-    }
-
-
     public String getProductId() {
         return productId;
     }
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+    public Double getTotalPayment() {
+        totalPayment = Double.parseDouble(price) + (Double.parseDouble(price) * (Double.parseDouble(tax)/100)) -Double.parseDouble(price) * (Double.parseDouble(discount)/100);
+        return totalPayment;
     }
 }

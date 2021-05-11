@@ -25,14 +25,14 @@ public class MainEmployee {
 
     private void draw() {
         for (int i = 0; i < 170; i++) {
-            System.out.printf("-");
+            System.out.print("-");
         }
         System.out.println();
     }
 
     public void run() {
         Scanner sc = new Scanner(System.in);
-        String choice = "-1";
+        String choice;
         File file = new File(employeeManagement.getPath());
         do {
             if (file.length() > 0){
@@ -83,7 +83,7 @@ public class MainEmployee {
                     break;
                 }
                 case "10": {
-                    employeeManagement.getTotalSalrary();
+                    System.out.println("TỔNG TIỀN LƯƠNG PHẢI TRẢ: " + employeeManagement.getTotalSalrary());
                     break;
                 }
                 case "11": {
@@ -94,15 +94,11 @@ public class MainEmployee {
                     employeeManagement.showSalesPerformance();
                     break;
                 }
-//                case "13": {
-//
-//                    break;
-//                }
                 case "0": {
                     break;
                 }
                 default: {
-                    System.err.printf("Không có sự lựa chọn này\n");
+                    System.err.print("Không có sự lựa chọn này\n");
                 }
             }
         } while (!choice.equals("0"));

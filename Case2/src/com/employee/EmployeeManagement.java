@@ -1,8 +1,6 @@
 package com.employee;
 
-import com.company.MainEmployee;
 import com.company.ReadWriteFile;
-
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -30,36 +28,14 @@ public class EmployeeManagement {
     private static final String EXAMPLE_ADDRESS = "(VD:HaTinh)";
     private static final String EXAMPLE_PHONE_NUMBER = "(VD:1234567890)";
     private static final String EXAMPLE_SALARY = "(VD:20000000)";
-    private static final String ACCOUNT_MANAGER_TXT = "accountManager.txt";
-    private static final String ACCOUNT_ACCOUNTANT_TXT = "accountAccountant.txt";
     private static final String LIST_EMPLOYEE_TXT = "listEmployee.txt";
-    private static final String ACCOUNT_REGEX = "\\w*";
-    private static final String PASSWORD_REGEX = "[A-Z]*[a-z]*\\d*";
     private static List<Employee> employeeList = new ArrayList<>();
-    private Map<String, String> accountManagerList = new HashMap<>();
-    private Map<String, String> accountAccountantList = new HashMap<>();
-    private final ReadWriteFile<Employee> readWriteDataFile = new ReadWriteFile<>();
-    private final ReadWriteFile<String> readWriteAccountFile = new ReadWriteFile<>();
-    private final Scanner sc = new Scanner(System.in);
+    private static final ReadWriteFile<Employee> readWriteDataFile = new ReadWriteFile<>();
+    private static final Scanner sc = new Scanner(System.in);
 
 
     public EmployeeManagement() {
-        File fileManager = new File(ACCOUNT_MANAGER_TXT);
-        File fileAccountant = new File(ACCOUNT_ACCOUNTANT_TXT);
-        if (fileManager.length() == 0) {
-            accountManagerList.put("kien2803", "Kien2803");
-            readWriteAccountFile.writeMapToFile(ACCOUNT_MANAGER_TXT, accountManagerList);
-        }
-        if (fileAccountant.length() == 0){
-            accountAccountantList.put("tk2803", "Tk2803");
-            readWriteAccountFile.writeMapToFile(ACCOUNT_ACCOUNTANT_TXT, accountAccountantList);
-        }
-        if (fileManager.length() > 0){
-            accountManagerList = readWriteAccountFile.readMapFromFile(ACCOUNT_MANAGER_TXT);
-        }
-        if (fileAccountant.length() > 0){
-            accountAccountantList = readWriteAccountFile.readMapFromFile(ACCOUNT_ACCOUNTANT_TXT);
-        }
+
     }
 
     public ReadWriteFile<Employee> getReadWriteDataFile() {
@@ -70,25 +46,19 @@ public class EmployeeManagement {
         return LIST_EMPLOYEE_TXT;
     }
 
-    public Map<String, String> getAccountManagerList() {
-        return accountManagerList;
-    }
 
-    public Map<String, String> getAccountAccountantList() {
-        return accountAccountantList;
-    }
 
     public void setEmployees() {
-        this.employeeList = readWriteDataFile.readDataFromFile(LIST_EMPLOYEE_TXT);
+        employeeList = readWriteDataFile.readDataFromFile(LIST_EMPLOYEE_TXT);
     }
 
-    public String getACCOUNT_REGEX() {
-        return ACCOUNT_REGEX;
-    }
-
-    public String getPASSWORD_REGEX() {
-        return PASSWORD_REGEX;
-    }
+//    public String getACCOUNT_REGEX() {
+//        return ACCOUNT_REGEX;
+//    }
+//
+//    public String getPASSWORD_REGEX() {
+//        return PASSWORD_REGEX;
+//    }
 
     public String getPath() {
         return LIST_EMPLOYEE_TXT;
@@ -98,33 +68,6 @@ public class EmployeeManagement {
         return employeeList;
     }
 
-    public String getAccountAccountantTxt() {
-        return ACCOUNT_ACCOUNTANT_TXT;
-    }
-
-    public String getAccountManagerTxt() {
-        return ACCOUNT_MANAGER_TXT;
-    }
-
-    public void setPasswordManager(String account, String newPassword) {
-        accountManagerList.replace(account,newPassword);
-        readWriteAccountFile.writeMapToFile(ACCOUNT_MANAGER_TXT, accountManagerList);
-    }
-
-    public void setPasswordAccountant(String account,String newPassword) {
-        accountAccountantList.replace(account,newPassword);
-        readWriteAccountFile.writeMapToFile(ACCOUNT_ACCOUNTANT_TXT,  accountAccountantList);
-    }
-
-    public void addAccountManager(String account, String password) {
-        accountManagerList.put(account,password);
-        readWriteAccountFile.writeMapToFile(ACCOUNT_MANAGER_TXT, accountManagerList);
-    }
-
-    public void addAccountAccountant(String account, String password) {
-        accountAccountantList.put(account,password);
-        readWriteAccountFile.writeMapToFile(ACCOUNT_ACCOUNTANT_TXT, accountAccountantList);
-    }
 
     public void addInfo(Employee employee) {
         enterInfo(employee);
@@ -269,20 +212,20 @@ public class EmployeeManagement {
                 }
                 case "5": {
                     System.out.println(SALARY + EXAMPLE_SALARY);
-                    String slary = checkInput(SALARY_REGEX);
-                    employee.setSalary(slary);
+                    String salary = checkInput(SALARY_REGEX);
+                    employee.setSalary(salary);
                     break;
                 }
                 case "6": {
                     System.out.println(BONUS + EXAMPLE_SALARY);
                     String bonus = checkInput(SALARY_REGEX);
-                    employee.setSalary(bonus);
+                    employee.setBonus(bonus);
                     break;
                 }
                 case "7": {
                     System.out.println(FINE + EXAMPLE_SALARY);
                     String fine = checkInput(SALARY_REGEX);
-                    employee.setSalary(fine);
+                    employee.setFine(fine);
                     break;
                 }
                 case "8": {
@@ -299,14 +242,14 @@ public class EmployeeManagement {
                     String phoneNumber = checkInput(PHONE_NUMBER_REGEX);
                     employee.setPhoneNumber(phoneNumber);
                     System.out.println(SALARY + EXAMPLE_SALARY);
-                    String slary = checkInput(SALARY_REGEX);
-                    employee.setSalary(slary);
+                    String salary = checkInput(SALARY_REGEX);
+                    employee.setSalary(salary);
                     System.out.println(BONUS + EXAMPLE_SALARY);
                     String bonus = checkInput(SALARY_REGEX);
-                    employee.setSalary(bonus);
+                    employee.setBonus(bonus);
                     System.out.println(FINE + EXAMPLE_SALARY);
                     String fine = checkInput(SALARY_REGEX);
-                    employee.setSalary(fine);
+                    employee.setFine(fine);
                     break;
                 }
                 case "0": {
@@ -317,6 +260,7 @@ public class EmployeeManagement {
                     break;
                 }
             }
+            readWriteDataFile.writeDataToFile(getListEmployeeTxt(),employeeList);
         } while (!choice.equals("0"));
     }
 
@@ -347,12 +291,15 @@ public class EmployeeManagement {
         readWriteDataFile.writeDataToFile(LIST_EMPLOYEE_TXT, employeeList);
     }
 
-    public void getTotalSalrary() {
+    public Double getTotalSalrary() {
         double sum = 0;
-        for (Employee employee : employeeList) {
-            sum += employee.getRealWages();
+        setEmployees();
+        if (employeeList != null){
+            for (Employee employee : employeeList) {
+                sum += employee.getRealWages();
+            }
         }
-        System.out.println("Số tiền phải trả cho toàn bộ nhân viên là: " + sum + "vnd");
+        return sum;
     }
 
     public void findEmployeeById() {
@@ -372,28 +319,7 @@ public class EmployeeManagement {
         }
     }
 
-    public String login() {
-        Scanner sc = new Scanner(System.in);
-        String account;
-        String password;
-        while (true) {
-            draw();
-            System.out.printf(EDIT_PRINTF + "\n", "", "ĐĂNG NHẬP", "");
-            System.out.printf(EDIT_PRINTF, "", "Nhập tài khoản", "");
-            account = sc.next();
-            System.out.printf(EDIT_PRINTF, "", "Nhập mật khẩu", "");
-            password = sc.next();
-            boolean checkManager = accountManagerList.containsKey(account) && accountManagerList.get(account).equals(password);
-            boolean checkAccountant = accountAccountantList.containsKey(account) && accountAccountantList.get(account).equals(password);
-            if (checkManager) {
-                return "Manager";
-            } else if (checkAccountant) {
-                return "Accountant";
-            }
-            System.err.printf(EDIT_PRINTF + "\n", "", "Tài khoản hoặc mật khẩu không đúng", "");
-            draw();
-        }
-    }
+
 
     public String checkInput(String regex) {
         Pattern pattern = Pattern.compile(regex);

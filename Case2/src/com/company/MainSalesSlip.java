@@ -5,8 +5,7 @@ import com.SalesSlip.SalesSlipManagement;
 import java.util.Scanner;
 
 public class MainSalesSlip {
-    private final String S_40_S_60_S = "%-40s%-50s%-40s%40s";
-    private SalesSlipManagement salesSlipManagement = new SalesSlipManagement();
+    private final SalesSlipManagement salesSlipManagement = new SalesSlipManagement();
 
     public  void draw() {
         for (int i = 0; i < 170; i++) {
@@ -18,18 +17,19 @@ public class MainSalesSlip {
     public void menu() {
         draw();
         System.out.printf("%-70s%-50s%-40s%10s" + "\n", "|", "QUẢN LÍ PHIẾU BÁN HÀNG", "", "|");
-        System.out.printf(S_40_S_60_S + "\n", "|", "", "", "|");
-        System.out.printf(S_40_S_60_S + "\n", "|", "1. Thêm thông tin phiếu bán hàng", "", "|");
-        System.out.printf(S_40_S_60_S + "\n", "|", "2. Hiển thị danh sách phiếu bán hàng", "", "|");
-        System.out.printf(S_40_S_60_S + "\n", "|", "3. Xóa thông tin phiếu bán hàng", "", "|");
-        System.out.printf(S_40_S_60_S + "\n", "|", "4. Tìm phiếu bán hàng", "", "|");
-        System.out.printf(S_40_S_60_S + "\n", "|", "0. Thoát ", "", "|");
+        String s_40_S_60_S = "%-70s%-50s%-40s%40s";
+        System.out.printf(s_40_S_60_S + "\n", "|", "", "", "|");
+        System.out.printf(s_40_S_60_S + "\n", "|", "1. Thêm thông tin phiếu bán hàng", "", "|");
+        System.out.printf(s_40_S_60_S + "\n", "|", "2. Hiển thị danh sách phiếu bán hàng", "", "|");
+        System.out.printf(s_40_S_60_S + "\n", "|", "3. Xóa thông tin phiếu bán hàng", "", "|");
+        System.out.printf(s_40_S_60_S + "\n", "|", "4. Tìm phiếu bán hàng", "", "|");
+        System.out.printf(s_40_S_60_S + "\n", "|", "0. Thoát ", "", "|");
         draw();
     }
 
     public void run() {
         Scanner sc = new Scanner(System.in);
-        String choice = "-1";
+        String choice;
         do {
             menu();
             choice = sc.next();
@@ -55,7 +55,7 @@ public class MainSalesSlip {
                     break;
                 }
                 default: {
-                    System.err.printf("Không có sự lựa chọn này\n");
+                    System.err.print("Không có sự lựa chọn này\n");
                 }
             }
         } while (!choice.equals("0"));
